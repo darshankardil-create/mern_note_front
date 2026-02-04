@@ -29,20 +29,6 @@ const Page = () => {
   const [valuecon, setvaluecon] = useState("");
   const [updatedata, setupdatedata] = useState({});
 
-  //   useEffect(() => {
-
-  //      if (data.length === null) return;   //  file:///Users/sanjaykardile/Desktop/Screenshot%202025-12-12%20at%202.26.25%20PM.png
-
-  //   if (data.length === 0) {
-
-  //     setfirstpage(true);
-  //     setfirst(false);
-
-  //   }
-  // }, [data.length]);
-
-
-
 
 
   useEffect(() => {
@@ -55,7 +41,7 @@ const Page = () => {
     }
   }, [data.length]);
 
-  //    file:///Users/sanjaykardile/Downloads/Fetch%20Axios%20Get%20Post.pdf //open browser
+
 
   const fetchnotes = async () => {
     try {
@@ -127,7 +113,7 @@ const Page = () => {
       console.log(dataofpost);
 
       if (dataofpost.status === 200) {
-        // setdata((prev) => prev.filter((note) => note._id !== noteid));
+       
 
         toast.success(" Note deleted successfully");
       }
@@ -191,16 +177,16 @@ const Page = () => {
 
   return (
     <>
-      {first && ( // ✅ 3. Parentheses are used ONLY for grouping multi-line JSX
+      {first && ( 
         <div
           data-theme="night"
           className={` " min-h-screen" ${
-            swap //boolean
+            swap 
               ? " min-h-screen bg-gradient-to-r from-red-500 via-orange-500 via-yellow-400 via-green-400 via-blue-500 via-indigo-500 to-purple-600 "
               : " min-h-screen bg-absolute inset-0 -z-10 h-full w-full items-center  [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]" // website name- bg.ibelick.com
           } `}
         >
-          {/* <div  className="min-h-screen bg-gradient-to-r from-yellow-300 via-blue-500 via-pink-400 via-orange-400 via-purple-400 to-red-500) "></div> */}
+      
 
           <Header
             savebool={setvalueofsave}
