@@ -3,7 +3,7 @@ import React from "react";
 const Header = (prop) => {
   return (
     <div>
-      <div className="bg-amber-800 lg:h-15 max-auto lg:w-360 flex items-center w-100  ">
+      <div className="bg-amber-800 lg:h-15 max-auto flex items-center w-full fixed top-0 z-1">
         <div className="lg:ml-[100px] lg:font-[1000] text-yellow-400 lg:text-[20px] font-[22px] ml-2">
           Vaishnavi&Sayali
         </div>

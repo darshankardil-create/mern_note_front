@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 
 const Note = (prop) => {
   return (
-    <div className="lg:grid lg:grid-cols-3 lg:gap-110 lg:gap-y-20 lg:ml-8 grid grid-colos-1 gap-5">
+    <div className="lg:grid lg:grid-cols-3 md:grid-cols-2 md:gap-10  lg:gap-10 lg:gap-y-20 lg:ml-8 grid grid-colos-1 gap-5">
       {prop.data.map((i, _) => {
         return (
           <Fragment key={i._id}>

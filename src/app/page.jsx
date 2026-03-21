@@ -198,7 +198,7 @@ const Page = () => {
 
           {ratelimiter && <Ratelimiter />}
 
-          <div className="grid grid-cols-3 gap-4 mt-10">
+          <div className="pt-20">
             {note && (
               <Note
                 deletedata={deletedata}
