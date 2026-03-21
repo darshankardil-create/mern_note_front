@@ -24,7 +24,7 @@ const Note = (prop) => {
                       }
                     }}
                   >
-                    delete
+                    Delete
                   </button>
                   <button
                     className="btn mt-3"

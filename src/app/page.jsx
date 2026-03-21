@@ -50,6 +50,8 @@ const Page = () => {
 
       if (error?.response?.status === 429) {
         setratelimiter(true);
+        toast.error("Too many request please try again later");
+        return;
       } else {
         console.log("error is their in fetching");
       }
@@ -87,6 +89,8 @@ const Page = () => {
 
       if (error.response.status === 429) {
         setratelimiter(true);
+        toast.error("Too many request please try again later");
+        return;
       } else if (error.response.status === 500) {
         toast.error("Failed to create note internal server error");
       } else {
@@ -112,6 +116,8 @@ const Page = () => {
     } catch (error) {
       if (error.response.status === 429) {
         setratelimiter(true);
+        toast.error("Too many request please try again later");
+        return;
       } else {
         console.log("error is their in deleting note");
       }
@@ -135,6 +141,8 @@ const Page = () => {
     } catch (error) {
       if (error.response.status === 429) {
         setratelimiter(true);
+        toast.error("Too many request please try again later");
+        return;
       } else {
         console.log("error is their in deleting note");
       }
@@ -143,6 +151,12 @@ const Page = () => {
       fetchnotes();
     }
   }
+
+  useEffect(() => {
+    if (ratelimiter) {
+      setnote(false);
+    }
+  }, [ratelimiter]);
 
   const findbyid = async ({ noteid }) => {
     try {
@@ -158,6 +172,8 @@ const Page = () => {
 
       if (error.response.status === 429) {
         setratelimiter(true);
+        toast.error("Too many request please try again later");
+        return;
       } else {
         console.log("error is their in fetching data by id");
       }
@@ -172,7 +188,7 @@ const Page = () => {
       {first && (
         <div
           data-theme="night"
-          className={` " min-h-screen" ${
+          className={` " min-h-screen "  ${
             swap
               ? " min-h-screen bg-linear-to-r from-red-500 via-orange-500 via-yellow-400 via-green-400 via-blue-500 via-indigo-500 to-purple-600 "
               : " min-h-screen bg-absolute inset-0 -z-10 h-full w-full items-center  [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]" // website name- bg.ibelick.com
@@ -195,10 +211,12 @@ const Page = () => {
               <span className="loading loading-ball loading-xl"></span>
             </div>
           )}
-
-          {ratelimiter && <Ratelimiter />}
-
-          <div className="pt-20">
+          {ratelimiter && (
+            <div className="left-1/5 top-1/2 absolute">
+              <Ratelimiter />
+            </div>
+          )}
+          <div className="pt-30">
             {note && (
               <Note
                 deletedata={deletedata}
