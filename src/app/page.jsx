@@ -203,7 +203,7 @@ const Page = () => {
           />
 
           {loading && (
-            <div className="ml-160 mt-100">
+            <div className="pl-160 pt-100">
               <span className="loading loading-ball loading-xs"></span>
               <span className="loading loading-ball loading-sm"></span>
               <span className="loading loading-ball loading-md"></span>
