@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://mern-note-2-2.onrender.com/api",
+  baseURL: "https://mern-note-1-bxgm.onrender.com/api",
 });
 
 export default api;
@@ -9,4 +9,4 @@ export default api;
 
 
 
-// http://localhost:3000/api          
+//  http://localhost:3000/api       
