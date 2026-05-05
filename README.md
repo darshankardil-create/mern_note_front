@@ -42,6 +42,7 @@ The project demonstrates how a frontend application communicates with a backend 
 - View notes
 - Edit existing notes
 - Delete notes
+- rate limiting
 
 ### 🎨 UI & UX
 - Clean and minimal interface
