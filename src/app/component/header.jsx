@@ -3,17 +3,19 @@ import React from "react";
 const Header = (prop) => {
   return (
     <div>
-      <div className="bg-amber-800 lg:h-15 max-auto flex items-center w-full fixed top-0 z-1">
+      <div className="bg-amber-800 lg:h-15 max-auto flex items-center w-full fixed top-0 z-1 h-13">
         <div className="lg:ml-[100px] lg:font-[1000] text-yellow-400 lg:text-[20px] font-[22px] ml-2">
           Vaishnavi&Sayali
         </div>
         <button
-          className="btn btn-soft btn-warning ml-auto lg:mr-[110px] mr-10 "
+          className="btn btn-soft btn-warning ml-auto lg:mr-[110px] mr-10 bg-amber-950 border-amber-50 hover:bg-amber-500 "
           onClick={() => {
+            prop.setisSave(false);
             prop.savebool(true);
             prop.setnote(false);
             prop.setfirstpage(false);
             prop.setfirst(true);
+            prop.setupdatedata({})
           }}
         >
           + Create note

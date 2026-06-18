@@ -3,7 +3,6 @@
 import React, { Fragment } from "react";
 import Header from "./component/header.jsx";
 import { useEffect, useState } from "react";
-import Valueofsave from "./component/valueofsave.jsx";
 import Update from "./component/update.jsx";
 import Note from "./component/note.jsx";
 import Ratelimiter from "./component/ratelimiter.jsx";
@@ -14,37 +13,27 @@ import deleteimg from "./delete.png";
 
 const Page = () => {
   const [note, setnote] = useState(true);
-  const [valueofsave, setvalueofsave] = useState(false);
   const [update, setupdate] = useState(false);
   const [ratelimiter, setratelimiter] = useState(false);
   const [loading, setloading] = useState(true);
   const [swap, setswap] = useState(false);
   const [first, setfirst] = useState(true);
   const [firstpage, setfirstpage] = useState(false);
-
+  const [isSave, setisSave] = useState(false);
   const [data, setdata] = useState([]);
   const [value, setvalue] = useState("");
   const [valuecon, setvaluecon] = useState("");
   const [updatedata, setupdatedata] = useState({});
 
-  useEffect(() => {
-    if (data.length === 0) {
-      setfirstpage(true);
-      setfirst(false);
-    } else {
-      setfirstpage(false);
-      setfirst(true);
-    }
-  }, [data.length]);
-
   const fetchnotes = async () => {
     try {
+      setloading(true);
       const res = await api.get("/notes");
 
-      console.log(res.data.noteisthere);
+      console.log(res?.data?.noteisthere);
       console.log(res);
 
-      setdata(res.data.noteisthere);
+      setdata(res.data?.noteisthere);
     } catch (error) {
       console.log("failed to fetch data");
 
@@ -59,6 +48,15 @@ const Page = () => {
       setloading(false);
     }
   };
+  useEffect(() => {
+    if (data.length === 0) {
+      setfirstpage(true);
+      setfirst(false);
+    } else {
+      setfirstpage(false);
+      setfirst(true);
+    }
+  }, [data]);
 
   useEffect(() => {
     fetchnotes();
@@ -74,11 +72,11 @@ const Page = () => {
 
     try {
       const dataofpost = await api.post(url, postdata);
-      console.log(dataofpost.data);
+      console.log(dataofpost?.data);
 
-      console.log("status:", dataofpost.status);
+      console.log("status:", dataofpost?.status);
 
-      if (dataofpost.status === 200) {
+      if (dataofpost?.status === 200) {
         toast.success("Added note successfully");
       }
 
@@ -87,11 +85,11 @@ const Page = () => {
     } catch (error) {
       console.log("error in posting note");
 
-      if (error.response.status === 429) {
+      if (error?.response?.status === 429) {
         setratelimiter(true);
         toast.error("Too many request please try again later");
         return;
-      } else if (error.response.status === 500) {
+      } else if (error?.response?.status === 500) {
         toast.error("Failed to create note internal server error");
       } else {
         console.log("error is their in posting");
@@ -107,39 +105,15 @@ const Page = () => {
     const url = `/notes/${noteid}`;
 
     try {
+      setloading(true);
       const dataofpost = await api.delete(url);
       console.log(dataofpost);
 
-      if (dataofpost.status === 200) {
+      if (dataofpost?.status === 200) {
         toast.success(" Note deleted successfully");
       }
     } catch (error) {
-      if (error.response.status === 429) {
-        setratelimiter(true);
-        toast.error("Too many request please try again later");
-        return;
-      } else {
-        console.log("error is their in deleting note");
-      }
-    } finally {
-      setloading(false);
-      fetchnotes();
-    }
-  }
-
-  async function updateall() {
-    const url = `/notes/${updatedata._id}`;
-
-    try {
-      const updatedatapfput = {
-        title: updatedata.title || "",
-        content: updatedata.content || "",
-      };
-
-      const dataofpost = await api.put(url, updatedatapfput);
-      console.log(dataofpost.data);
-    } catch (error) {
-      if (error.response.status === 429) {
+      if (error?.response?.status === 429) {
         setratelimiter(true);
         toast.error("Too many request please try again later");
         return;
@@ -162,15 +136,15 @@ const Page = () => {
     try {
       const res = await api.get(`/notes/${noteid}`);
 
-      console.log(res.data);
+      console.log(res?.data);
 
-      setupdatedata(res.data.n);
+      setupdatedata(res?.data?.n);
 
-      console.log(res.data.n);
+      console.log(res?.data?.n);
     } catch (error) {
       console.log("failed to fetch data");
 
-      if (error.response.status === 429) {
+      if (error?.response?.status === 429) {
         setratelimiter(true);
         toast.error("Too many request please try again later");
         return;
@@ -188,22 +162,24 @@ const Page = () => {
       {first && (
         <div
           data-theme="night"
-          className={` " min-h-screen "  ${
+          className={`min-h-screen ${loading ? "cursor-not-allowed" : ""}  ${
             swap
-              ? " min-h-screen bg-linear-to-r from-red-500 via-orange-500 via-yellow-400 via-green-400 via-blue-500 via-indigo-500 to-purple-600 "
-              : " min-h-screen bg-absolute inset-0 -z-10 h-full w-full items-center  [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]" // website name- bg.ibelick.com
+              ? "  bg-linear-to-r from-red-500 via-orange-500 via-yellow-400 via-green-400 via-blue-500 via-indigo-500 to-purple-600 "
+              : "   bg-absolute inset-0 -z-10 h-full w-full items-center  [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]" // website name- bg.ibelick.com
           } `}
         >
           <Header
-            savebool={setvalueofsave}
+            setisSave={setisSave}
+            savebool={setupdate}
             setnote={setnote}
             setswap={setswap}
             setfirstpage={setfirstpage}
             setfirst={setfirst}
+            setupdatedata={setupdatedata}
           />
 
           {loading && (
-            <div className="pl-160 pt-100">
+            <div className=" text-green-300 flex justify-center items-center fixed  h-full w-full z-30">
               <span className="loading loading-ball loading-xs"></span>
               <span className="loading loading-ball loading-sm"></span>
               <span className="loading loading-ball loading-md"></span>
@@ -219,38 +195,33 @@ const Page = () => {
           <div className="pt-30">
             {note && (
               <Note
+                setupdatedata={setupdatedata}
                 deletedata={deletedata}
-                fetchnotes={fetchnotes}
                 setnote={setnote}
                 findbyid={findbyid}
                 setupdate={setupdate}
+                setisSave={setisSave}
                 data={data}
               />
             )}
           </div>
 
-          {valueofsave && (
-            <Valueofsave
-              setvalueofsave={setvalueofsave}
-              fetchnotes={fetchnotes}
-              postdata={postdata}
-              setvaluecon={setvaluecon}
-              setvalue={setvalue}
-              value={value}
-              valuecon={valuecon}
-              setfirst={setfirst}
-              setnote={setnote}
-            />
-          )}
-
           {update && (
             <Update
-              updateall={updateall}
+              loading={loading}
+              setloading={setloading}
+              value={value}
               setupdate={setupdate}
               fetchnotes={fetchnotes}
               setnote={setnote}
               updatedata={updatedata}
               setupdatedata={setupdatedata}
+              isSave={isSave}
+              postdata={postdata}
+              setvaluecon={setvaluecon}
+              setvalue={setvalue}
+              valuecon={valuecon}
+              setfirst={setfirst}
             />
           )}
         </div>
@@ -259,7 +230,9 @@ const Page = () => {
       {firstpage && (
         <>
           <Header
-            savebool={setvalueofsave}
+            setupdatedata={setupdatedata}
+            setisSave={setisSave}
+            savebool={setupdate}
             setnote={setnote}
             setswap={setswap}
             setfirst={setfirst}
@@ -292,8 +265,9 @@ const Page = () => {
               <button
                 className=" cursor-pointer bg-blue-600 p-6 lg:ml-40 mt-20 rounded-lg border-none text-black ml-25"
                 onClick={() => {
+                  setisSave(false);
                   setfirst(true);
-                  setvalueofsave(true);
+                  setupdate(true);
                   setfirstpage(false);
                   setnote(false);
                 }}
